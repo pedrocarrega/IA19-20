@@ -657,6 +657,7 @@ class Game:
 
         while not self.gameOver:
             agent = self.agents[agentIndex]
+            #print(self.state.numMoves(),'O jogo não acabou!',agentIndex, 'vai jogar')
             move_time = 0           
             skip_action = False
             # Generate an observation of the state (no nosso caso ignorar porque o estado completo é a observação)
@@ -758,14 +759,14 @@ class Game:
             # Allow for game specific conditions (winning, losing, etc.)
             self.rules.process(self.state, self)
             # Track progress
-            if agentIndex == numAgents - 1:
-                self.numMoves += 1
+            #if agentIndex == numAgents - 1:
+            #    self.numMoves += 1
                 
             # We arrived to the limit of moves
             #print('Jogada:',self.numMoves)
-            if self.numMoves >= limMoves:
-                self.gameOver=True
-                self.state.data._win = True
+            #if self.numMoves >= limMoves:
+            #    self.gameOver=True
+            #    self.state.data._win = True
             # Next agent
             agentIndex = (agentIndex + 1) % numAgents
 

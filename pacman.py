@@ -103,6 +103,7 @@ class GameState:
         """
         Returns the successor state after the specified agent takes the action.
         """
+        #print('Faltam:',self.movesToGo,"e agora joga o:",agentIndex)
         # Check that successors exist
         if self.isWin() or self.isLose():
             raise Exception('Can\'t generate a successor of a terminal state.')
@@ -129,6 +130,12 @@ class GameState:
         # Book keeping
         state.data._agentMoved = agentIndex
         state.data.score += state.data.scoreChange
+        # Meu código
+        if  state.getNumAgents() == (agentIndex + 1):
+            state.movesToGo -= 1
+        if state.movesToGo == 0:
+            state.data._win=True
+
         GameState.explored.add(self)
         GameState.explored.add(state)
         return state
@@ -220,6 +227,9 @@ class GameState:
 
     def isWin(self):
         return self.data._win
+    
+    def numMoves(self):
+        return self.movesToGo
 
     #############################################
     #             Helper methods:               #
@@ -232,8 +242,10 @@ class GameState:
         """
         if prevState != None:  # Initial state
             self.data = GameStateData(prevState.data)
+            self.movesToGo = prevState.movesToGo
         else:
             self.data = GameStateData()
+            self.movesToGo=100
 
     def deepCopy(self):
         state = GameState(self)
@@ -256,11 +268,13 @@ class GameState:
 
         return str(self.data)
 
-    def initialize(self, layout, numGhostAgents=1000):
+    def initialize(self, layout, numGhostAgents=1000,numMoves=100):
         """
         Creates an initial game state from a layout array (see layout.py).
         """
         self.data.initialize(layout, numGhostAgents)
+        self.movesToGo = numMoves
+        ### print('O número de jogadas é:',self.movesToGo)
 
 ############################################################################
 #                     THE HIDDEN SECRETS OF PACMAN                         #
@@ -283,15 +297,16 @@ class ClassicGameRules:
     def __init__(self, timeout=30):
         self.timeout = timeout
 
-    def newGame(self, layout, pacmanAgent, ghostAgents, display, quiet=False, catchExceptions=False):
+    def newGame(self, layout, pacmanAgent, ghostAgents, display,quiet=False, limMoves=100,catchExceptions=False):
         #print('pacmanAgent=',pacmanAgent,'ghostAgents=',ghostAgents,'display=',display,'quite=',quiet)
         # pacman é a função passada que decide a sua acção em cada momento
         # ghostagents é a lista de funções passadas que decidem as suas acções em cada momento 
         # (aparentemente posso ter fantasmas de vários tipos) ignoram-se aqueles que se referem a fantasmas fora dos limites do layout
         # display é um objecto de que classe??????
+        #print('NewGame: limite de jogadas:',limMoves)
         agents = [pacmanAgent] + ghostAgents[:layout.getNumGhosts()]
         initState = GameState()
-        initState.initialize(layout, len(ghostAgents))
+        initState.initialize(layout, len(ghostAgents),limMoves)
         game = Game(agents, display, self, catchExceptions=catchExceptions)
         game.state = initState
         self.initialState = initState.deepCopy()
@@ -711,7 +726,7 @@ def runGames(layout, pacman, ghosts, display, numGames, record, limMoves,numTrai
             gameDisplay = display
             rules.quiet = False
         game = rules.newGame(layout, pacman, ghosts,
-                             gameDisplay, beQuiet, catchExceptions)   #Novo jogo criado
+                             gameDisplay, beQuiet, limMoves,catchExceptions)   #Novo jogo criado
         game.run(limMoves)
         if not beQuiet:
             games.append(game)
@@ -755,6 +770,7 @@ if __name__ == '__main__':
     > python pacman.py --help
     """
     args = readCommand(sys.argv[1:])  # Get game components based on input
+    #print(args['limMoves'])
     #print(args)
     runGames(**args)
 

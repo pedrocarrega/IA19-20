@@ -50,17 +50,33 @@ class ClassicPacman:
         by default, actions for Pacman, agent index 0.
         ghosts start at 1
         """
+       ## print(state.to_move,state.board.numMoves())
+        ## print('win:',state.board.isWin())
         if state.to_move == "Pacman":
             return state.board.getLegalActions()
         else:
             return state.board.getLegalActions(1)
-
-    def result(self, state, move):
-        """Return the state that results from making a move from a state."""
+        
+    def result(self, state, move,player,extra_fn):
+        """Return the state that results from making a move from a state."""  
+        #print(player,'is thinking and there are still',state.board.numMoves())
+        #print('but',state.to_move,'is moving')
         if state.to_move == "Pacman":
-            return ClassicPac(board=state.board.generatePacmanSuccessor(move),to_move="Ghosts")
+            new_board=state.board.generatePacmanSuccessor(move)
+            new_extra = state.extra
+            if player == 'Ghosts':
+                new_extra=extra_fn(new_board,state.extra.copy())
+                #print('I have a new extra in my mind',new_extra)
+            return ClassicPac(board=new_board,to_move="Ghosts",extra=new_extra)
         else:
-            return ClassicPac(board=state.board.generateSuccessor(1,move),to_move="Pacman")
+            new_board=state.board.generateSuccessor(1,move)
+            new_extra=state.extra
+            if player == 'Pacman':
+                new_extra=extra_fn(new_board,state.extra.copy())
+                #print('I have a new extra in my mind',new_extra)
+            return ClassicPac(board=new_board,to_move="Pacman",extra=new_extra)
+
+
 
     def utility(self, state, player):
         """Return the value of this final state to player which will be the score."""
@@ -71,7 +87,8 @@ class ClassicPacman:
 
     def terminal_test(self, state):
         """Return True if this is a final state for the game.
-        No actions mean a terminal state
+        No actions mean a terminal state.
+        When pacman wins or looses there are no legal actions
         """
         return not self.actions(state)
 
@@ -85,7 +102,7 @@ class ClassicPacman:
         print(state.board)
 
 
-def alphabeta_cutoff_search(state, game, d=4, cutoff_test=None, eval_fn=None):
+def alphabeta_cutoff_search(state, game, d=4, cutoff_test=None, eval_fn=None,extra_fn=None):
     """Search game to determine best action; use alpha-beta pruning.
     This version cuts off search and uses an evaluation function."""
 
@@ -98,9 +115,9 @@ def alphabeta_cutoff_search(state, game, d=4, cutoff_test=None, eval_fn=None):
             return eval_fn(state,player)
         v = -infinity
         for a in game.actions(state):              ##
-            v = max(v, min_value(game.result(state, a),
+            v = max(v, min_value(game.result(state, a,player,extra_fn),
                                  alpha, beta, depth + 1))
-            if v >= beta:
+            if v >= beta: #feito o corte minMax
                 return v
             alpha = max(alpha, v)
         return v
@@ -111,9 +128,9 @@ def alphabeta_cutoff_search(state, game, d=4, cutoff_test=None, eval_fn=None):
             return eval_fn(state,player)
         v = infinity
         for a in game.actions(state):              ##
-            v = min(v, max_value(game.result(state, a),
+            v = min(v, max_value(game.result(state, a,player,extra_fn),
                                  alpha, beta, depth + 1))
-            if v <= alpha:
+            if v <= alpha: #feito o corte minMax
                 return v
             beta = min(beta, v)
         return v
@@ -121,21 +138,25 @@ def alphabeta_cutoff_search(state, game, d=4, cutoff_test=None, eval_fn=None):
     # Body of alphabeta_cutoff_search starts here:
     # The default test cuts off at depth d or at a terminal state
     cutoff_test = (cutoff_test or
-                   (lambda state, depth: depth > d or
+                   (lambda state, depth: depth >= d or
                     game.terminal_test(state)))
     eval_fn = eval_fn or (lambda state: game.utility(state, player))
+    extra_fn = extra_fn or (lambda st1: st1.extra)
+    #print("Well, I am inside alphabeta and i am going to apply...",extra_fn)
     best_score = -infinity
     beta = infinity
     best_action = None
     movimentos = game.actions(state)  ## jb
-    random.shuffle(movimentos)        ## para dar variabilidade aos jogos
-    for a in movimentos:              ##
-        v = min_value(game.result(state, a), best_score, beta, 1)
-        if v > best_score:
-            best_score = v
-            best_action = a
-    return best_action
-
+    if len(movimentos)==1:
+        return movimentos[0]
+    else:
+        random.shuffle(movimentos)        ## para dar variabilidade aos jogos
+        for a in movimentos:              ##
+            v = min_value(game.result(state, a,player,extra_fn), best_score, beta, 1)
+            if v > best_score:
+                best_score = v
+                best_action = a
+        return best_action
 
 
 
@@ -162,6 +183,35 @@ def scooore(gState,player):
     return gState.board.getScore() * 100 - minDistance
 
 
+def identity(gState,extra):
+    """ The identity function for the extra part of state
+    """
+    #print(extra)
+    return extra
+
+def extra_mem(gState,extra):
+    """ memorizes the positions of Pacman and ghosts
+    """
+    if extra == {}:
+        n_extra ={'Pacman':[gState.getPacmanPosition()],'Ghosts':[gState.getGhostPosition(1)]}
+        return n_extra
+    else:
+        n_extra=extra.copy()
+        n_extra['Pacman']=[gState.getPacmanPosition()]+n_extra['Pacman']
+        n_extra['Ghosts']=[gState.getGhostPosition(1)]+n_extra['Ghosts']
+    return n_extra
+
+def extra_memF(gState,extra):
+    """ memorizes the positions of Pacman and ghosts
+    """
+    if extra == {}:
+        n_extra ={'Pacman':[gState.getPacmanPosition()],'Ghosts':[]}
+        return n_extra
+    else:
+        n_extra=extra.copy()
+        n_extra['Pacman']=[gState.getPacmanPosition()]+n_extra['Pacman']
+        n_extra['Ghosts']=[gState.getGhostPosition(1)]+n_extra['Ghosts']
+    return n_extra
 
 
 
@@ -173,12 +223,16 @@ class MultiAgentSearchAgent(Agent):
     """
 
    # def __init__(self, evalFn = 'scoreEvaluationFunction', depth = '2'):
-    def __init__(self, index=0,evalFn = 'so_score', depth = '2'):
+    def __init__(self, index=0,evalFn = 'so_score', extraFn='identity',depth = '2'):
         self.index = index  #0 # Pacman is always agent index 0
         self.evaluationFunction = util.lookup(evalFn, globals())
+        self.extra_fn = util.lookup(extraFn,globals())
         self.depth = int(depth)
+        self.extra = {}
+
         
     def myName(self):
+        # This will be used for the identification of this agent in the record file
         #return self.__class__.__name__ + self.evaluationFunction.__name__
         return self.evaluationFunction.__name__
 
@@ -194,13 +248,14 @@ class AlphaBetaGhost(MultiAgentSearchAgent):
         """
         Returns the alfabeta action using self.depth and self.evaluationFunction
         """
-        
-        
-        currentState = ClassicPac(to_move="Ghost",board=gameState)
+        #print('Jogada dupla:',gameState.numMoves())
+        #print("Lets decide with Extra do Ghost",self.extra_fn)
+        self.extra=self.extra_fn(gameState,self.extra)
+        #print('Current extra:',self.extra)
+        currentState = ClassicPac(to_move="Ghosts",board=gameState,extra=self.extra)
         thisGame = ClassicPacman(currentState)
         #print("UAU. here goes alpha beta")
-        return alphabeta_cutoff_search(currentState, thisGame, d=self.depth, eval_fn=anti_score)
-
+        return alphabeta_cutoff_search(currentState, thisGame, d=self.depth, eval_fn=self.evaluationFunction,extra_fn=self.extra_fn)
 
 
 
@@ -209,16 +264,22 @@ class AlphaBetaAgent(MultiAgentSearchAgent):
      The alpha-beta pruning Pacman (question 3)
     """
 
+
     def getAction(self, gameState):
         """
         Returns the minimax action using self.depth and self.evaluationFunction
         """
-
-        currentState = ClassicPac(to_move="Pacman",board=gameState)
+        #print("Lets decide with Extra do Pac",self.extra_fn)
+        #self.extra=self.extra_fn(gameState,self.extra)
+        #print('Current extra:',self.extra)
+        currentState = ClassicPac(to_move="Pacman",board=gameState,extra=self.extra)
         thisGame = ClassicPacman(currentState)
         #print("UAU. here goes alpha beta")
-        return alphabeta_cutoff_search(currentState, thisGame, d=self.depth, eval_fn=self.evaluationFunction)
+        return alphabeta_cutoff_search(currentState, thisGame, d=self.depth, eval_fn=self.evaluationFunction, extra_fn=self.extra_fn)
         
+
+
+
         
 # ----------------  Random Agents
 
@@ -229,6 +290,7 @@ class RandomPac(Agent):
         # Generate candidate actions
         legal = state.getLegalPacmanActions()
         return random.choice(legal)
+
     
 class RandomGhost(Agent):
     """ A ghost that chooses its actions in a random way"""

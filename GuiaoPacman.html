@@ -13372,7 +13372,7 @@ trickyClassic
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span> python pacman.py -g DirectionalGhost -l originalClassic -y <span class="m">50</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span> python pacman.py -l originalClassic
 </pre></div>
 
     </div>
@@ -13499,15 +13499,15 @@ Desta tabela de valores sairá a nota final do projecto.</li>
 
 <pre><code>to_move   - o jogador que vai jogar a seguir
 board  - toda a informação sobre o jogo
-extra - campo livre para poderem colocar a informação que acharem interessante para a construção da função de avaliação. Tem o valor None por defeito.
+extra - campo livre para poderem colocar a informação que acharem interessante para a construção da função de avaliação. É um dicionário que começa vazio: {}
 
 </code></pre>
 <p>O estado é definido como um namedtuple no ficheiro <em>multiagents.py</em></p>
 <div class="highlight"><pre><span></span><span class="n">ClassicPac</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;ClassicPac&#39;</span><span class="p">,</span> <span class="s1">&#39;to_move, board, extra&#39;</span><span class="p">,</span><span class="n">defaults</span><span class="o">=</span><span class="p">[</span><span class="bp">None</span><span class="p">])</span>
 </pre></div>
 <p>O campo <strong>to_move</strong> pode ter dois valores: 'Pacman' ou 'Ghosts'</p>
-<p>O campo <strong>extra</strong> serve para guardarem o que quiserem para formar o estado do jogo, para além da informação dada pelo campo board.</p>
-<p>A seguir iremos explicar o que consta no campo <strong>board</strong> do estado.</p>
+<p>O campo <strong>extra</strong> serve para guardarem o que quiserem para formar o estado do jogo, para além da informação dada pelo campo board. É como se aumentassem o estado do jogo de modo livre, guardando informação relevante.</p>
+<p>A seguir iremos explicar o que consta no campo <strong>board</strong> do estado, que é o componente do estado que é o mais importante e que é utilizado pelo próprio motor do jogo para executar o jogo.</p>
 
 </div>
 </div>
@@ -13563,7 +13563,9 @@ hasWall(x,y): Booleano que indica se o ponto (x,y) corresponde a uma parede
 
 isLose(): Booleano a indicar derrota do Pacman (capturado por fantasmas) 
 
-isWin(): Booleano que indica se o Pacman ganhou (comeu todas as pastilhas)</code></pre>
+isWin(): Booleano que indica se o Pacman ganhou (comeu todas as pastilhas)
+
+numMoves(): devolve o número de jogadas (duplas, do Pacman e do Fantasma) que ainda faltam</code></pre>
 
 </div>
 </div>
@@ -13589,7 +13591,7 @@ o  -- Super-pastilha
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">layout</span>
@@ -13599,30 +13601,6 @@ o  -- Super-pastilha
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>%%%%%%%%%%%%%%%%%%%%
-%......%G  G%......%
-%.%%...%%  %%...%%.%
-%.%o.%........%.o%.%
-%.%%.%.%%%%%%.%.%%.%
-%........P.........%
-%%%%%%%%%%%%%%%%%%%%
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -13637,7 +13615,7 @@ o  -- Super-pastilha
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span>  <span class="nn">pacman</span> <span class="k">import</span> <span class="o">*</span>
@@ -13647,32 +13625,6 @@ o  -- Super-pastilha
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>%%%%%%%%%%%%%%%%%%%%
-%......%G  G%......%
-%.%%...%%  %%...%%.%
-%.%o.%........%.o%.%
-%.%%.%.%%%%%%.%.%%.%
-%........&lt;.........%
-%%%%%%%%%%%%%%%%%%%%
-Score: 0
-
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -13687,7 +13639,7 @@ Score: 0
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;O score:&quot;</span><span class="p">,</span><span class="n">g</span><span class="o">.</span><span class="n">getScore</span><span class="p">())</span>
@@ -13696,32 +13648,6 @@ Score: 0
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>O score: 0.0
-Pastilhões: [(3, 3), (16, 3)]
-Comidinha: FFFFFFFFFFFFFFFFFFFF
-FTTTTTTFFFFFFTTTTTTF
-FTFFTTTFFFFFFTTTFFTF
-FTFFTFTTTTTTTTFTFFTF
-FTFFTFTFFFFFFTFTFFTF
-FTTTTTTTTFTTTTTTTTTF
-FFFFFFFFFFFFFFFFFFFF
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -13736,31 +13662,13 @@ FFFFFFFFFFFFFFFFFFFF
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Comidinha:&#39;</span><span class="p">,</span><span class="n">g</span><span class="o">.</span><span class="n">getFood</span><span class="p">()</span><span class="o">.</span><span class="n">asList</span><span class="p">())</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Comidinha: [(1, 1), (1, 2), (1, 3), (1, 4), (1, 5), (2, 1), (2, 5), (3, 1), (3, 5), (4, 1), (4, 2), (4, 3), (4, 4), (4, 5), (5, 1), (5, 4), (5, 5), (6, 1), (6, 2), (6, 3), (6, 4), (6, 5), (7, 1), (7, 3), (8, 1), (8, 3), (9, 3), (10, 1), (10, 3), (11, 1), (11, 3), (12, 1), (12, 3), (13, 1), (13, 2), (13, 3), (13, 4), (13, 5), (14, 1), (14, 4), (14, 5), (15, 1), (15, 2), (15, 3), (15, 4), (15, 5), (16, 1), (16, 5), (17, 1), (17, 5), (18, 1), (18, 2), (18, 3), (18, 4), (18, 5)]
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -13775,31 +13683,13 @@ FFFFFFFFFFFFFFFFFFFF
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Blocos:&#39;</span><span class="p">,</span><span class="n">g</span><span class="o">.</span><span class="n">getWalls</span><span class="p">()</span><span class="o">.</span><span class="n">asList</span><span class="p">())</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Blocos: [(0, 0), (0, 1), (0, 2), (0, 3), (0, 4), (0, 5), (0, 6), (1, 0), (1, 6), (2, 0), (2, 2), (2, 3), (2, 4), (2, 6), (3, 0), (3, 2), (3, 4), (3, 6), (4, 0), (4, 6), (5, 0), (5, 2), (5, 3), (5, 6), (6, 0), (6, 6), (7, 0), (7, 2), (7, 4), (7, 5), (7, 6), (8, 0), (8, 2), (8, 4), (8, 6), (9, 0), (9, 2), (9, 6), (10, 0), (10, 2), (10, 6), (11, 0), (11, 2), (11, 4), (11, 6), (12, 0), (12, 2), (12, 4), (12, 5), (12, 6), (13, 0), (13, 6), (14, 0), (14, 2), (14, 3), (14, 6), (15, 0), (15, 6), (16, 0), (16, 2), (16, 4), (16, 6), (17, 0), (17, 2), (17, 3), (17, 4), (17, 6), (18, 0), (18, 6), (19, 0), (19, 1), (19, 2), (19, 3), (19, 4), (19, 5), (19, 6)]
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -13814,7 +13704,7 @@ FFFFFFFFFFFFFFFFFFFF
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;(1,1) é comida?&#39;</span><span class="p">,</span><span class="n">g</span><span class="o">.</span><span class="n">hasFood</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
@@ -13822,25 +13712,6 @@ FFFFFFFFFFFFFFFFFFFF
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>(1,1) é comida? True
-(0,5) é uma parede? True
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -13862,31 +13733,13 @@ FFFFFFFFFFFFFFFFFFFF
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Pacman:&#39;</span><span class="p">,</span><span class="n">g</span><span class="o">.</span><span class="n">getPacmanPosition</span><span class="p">())</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Pacman: (9, 1)
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -13901,33 +13754,13 @@ FFFFFFFFFFFFFFFFFFFF
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">g</span><span class="o">.</span><span class="n">getPacmanState</span><span class="p">()</span><span class="o">.</span><span class="n">getPosition</span><span class="p">()</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[8]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>(9, 1)</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -13942,33 +13775,13 @@ FFFFFFFFFFFFFFFFFFFF
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">g</span><span class="o">.</span><span class="n">getPacmanState</span><span class="p">()</span><span class="o">.</span><span class="n">getDirection</span><span class="p">()</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[9]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&#39;Stop&#39;</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -13983,31 +13796,13 @@ FFFFFFFFFFFFFFFFFFFF
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">getPacmanState</span><span class="p">())</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Pacman: (x,y)=(9, 1), Stop
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -14022,31 +13817,13 @@ FFFFFFFFFFFFFFFFFFFF
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Posições dos Fantasmas:&#39;</span><span class="p">,</span><span class="n">g</span><span class="o">.</span><span class="n">getGhostPositions</span><span class="p">())</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Posições dos Fantasmas: [(8, 5), (11, 5)]
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -14061,7 +13838,7 @@ FFFFFFFFFFFFFFFFFFFF
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">getGhostState</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
@@ -14069,25 +13846,6 @@ FFFFFFFFFFFFFFFFFFFF
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Ghost: (x,y)=(8, 5), Stop
-Ghost: (x,y)=(11, 5), Stop
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -14102,31 +13860,13 @@ Ghost: (x,y)=(11, 5), Stop
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Fantasma 1:&#39;</span><span class="p">,</span><span class="s1">&#39;Pos:&#39;</span><span class="p">,</span><span class="n">g</span><span class="o">.</span><span class="n">getGhostState</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">getPosition</span><span class="p">(),</span><span class="s1">&#39;Dir:&#39;</span><span class="p">,</span><span class="n">g</span><span class="o">.</span><span class="n">getGhostState</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">getDirection</span><span class="p">())</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Fantasma 1: Pos: (8, 5) Dir: Stop
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -14141,31 +13881,13 @@ Ghost: (x,y)=(11, 5), Stop
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Medo do fantasma 1:&#39;</span><span class="p">,</span><span class="n">g</span><span class="o">.</span><span class="n">getGhostState</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">scaredTimer</span><span class="p">)</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Medo do fantasma 1: 0
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -14179,7 +13901,7 @@ Ghost: (x,y)=(11, 5), Stop
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
@@ -14188,46 +13910,6 @@ Ghost: (x,y)=(11, 5), Stop
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>%%%%%%%%%%%%%%%%%%%%
-%......%G  G%......%
-%.%%...%%  %%...%%.%
-%.%o.%........%.o%.%
-%.%%.%.%%%%%%.%.%%.%
-%........&lt;.........%
-%%%%%%%%%%%%%%%%%%%%
-Score: 0
-
-Acções do agent de índice 0 (Pacman):
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[15]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>[&#39;West&#39;, &#39;Stop&#39;, &#39;East&#39;]</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -14242,7 +13924,7 @@ Acções do agent de índice 0 (Pacman):
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Acções do agent de índice 1 (fantasma):&#39;</span><span class="p">,</span><span class="n">g</span><span class="o">.</span><span class="n">getLegalActions</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
@@ -14252,38 +13934,6 @@ Acções do agent de índice 0 (Pacman):
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Acções do agent de índice 1 (fantasma): [&#39;East&#39;]
-Acções do agent de índice 2 (fantasma): [&#39;East&#39;]
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[16]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>[&#39;West&#39;]</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -14297,7 +13947,7 @@ Acções do agent de índice 2 (fantasma): [&#39;East&#39;]
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">g1</span><span class="o">=</span><span class="n">g</span><span class="o">.</span><span class="n">generateSuccessor</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;East&#39;</span><span class="p">)</span>
@@ -14313,63 +13963,6 @@ Acções do agent de índice 2 (fantasma): [&#39;East&#39;]
 </div>
 </div>
 
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>%%%%%%%%%%%%%%%%%%%%
-%......% G G%......%
-%.%%...%%  %%...%%.%
-%.%o.%........%.o%.%
-%.%%.%.%%%%%%.%.%%.%
-%........&lt;.........%
-%%%%%%%%%%%%%%%%%%%%
-Score: 0
-
-%%%%%%%%%%%%%%%%%%%%
-%......% GG %......%
-%.%%...%%  %%...%%.%
-%.%o.%........%.o%.%
-%.%%.%.%%%%%%.%.%%.%
-%........&lt;.........%
-%%%%%%%%%%%%%%%%%%%%
-Score: 0
-
-%%%%%%%%%%%%%%%%%%%%
-%......%  G %......%
-%.%%...%%  %%...%%.%
-%.%o.%........%.o%.%
-%.%%.%.%%%%%%.%.%%.%
-%........&lt;.........%
-%%%%%%%%%%%%%%%%%%%%
-Score: 0
-
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[17]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>[&#39;East&#39;, &#39;South&#39;]</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
@@ -14381,7 +13974,7 @@ Score: 0
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">g4</span><span class="o">=</span><span class="n">g3</span><span class="o">.</span><span class="n">generateSuccessor</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="s1">&#39;East&#39;</span><span class="p">)</span>
@@ -14399,63 +13992,6 @@ Score: 0
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>%%%%%%%%%%%%%%%%%%%%
-%......%  G %......%
-%.%%...%%  %%...%%.%
-%.%o.%........%.o%.%
-%.%%.%.%%%%%%.%.%%.%
-%........ &lt;........%
-%%%%%%%%%%%%%%%%%%%%
-Score: 9
-
-Acções do Pacman: [&#39;West&#39;, &#39;Stop&#39;, &#39;East&#39;]
-%%%%%%%%%%%%%%%%%%%%
-%......%  G %......%
-%.%%...%%  %%...%%.%
-%.%o.%........%.o%.%
-%.%%.%.%%%%%%.%.%%.%
-%........  &lt;.......%
-%%%%%%%%%%%%%%%%%%%%
-Score: 18
-
-Acções do Pacman: [&#39;West&#39;, &#39;Stop&#39;, &#39;East&#39;]
-%%%%%%%%%%%%%%%%%%%%
-%......%  G %......%
-%.%%...%%  %%...%%.%
-%.%o.%........%.o%.%
-%.%%.%.%%%%%%.%.%%.%
-%........   &lt;......%
-%%%%%%%%%%%%%%%%%%%%
-Score: 27
-
-Acções do Pacman: [&#39;West&#39;, &#39;Stop&#39;, &#39;East&#39;]
-%%%%%%%%%%%%%%%%%%%%
-%......%  G %......%
-%.%%...%%  %%...%%.%
-%.%o.%........%.o%.%
-%.%%.%.%%%%%%.%.%%.%
-%........    &lt;.....%
-%%%%%%%%%%%%%%%%%%%%
-Score: 36
-
-Acções do Pacman: [&#39;West&#39;, &#39;Stop&#39;, &#39;East&#39;, &#39;North&#39;]
-</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -14587,7 +14123,7 @@ GHOST_SPEED  1.0     está na classe GhostRules em pacman.py
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span> python pacman.py -g AlphaBetaGhost -b <span class="nv">depth</span><span class="o">=</span><span class="m">8</span>,evalFn<span class="o">=</span>anti_score -p RandomPac --frameTime <span class="m">0</span>.2 -k <span class="m">1</span> -l mediumClassic  
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span> python pacman.py -g AlphaBetaGhost -b <span class="nv">depth</span><span class="o">=</span><span class="m">2</span>,evalFn<span class="o">=</span>anti_score -p RandomPac --frameTime <span class="m">0</span>.2 -k <span class="m">1</span> -l mediumClassic  
 </pre></div>
 
     </div>
@@ -14607,7 +14143,7 @@ GHOST_SPEED  1.0     está na classe GhostRules em pacman.py
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span> python pacman.py -z <span class="m">2</span> -g AlphaBetaGhost -b <span class="nv">depth</span><span class="o">=</span><span class="m">8</span>,evalFn<span class="o">=</span>anti_score -p AlphaBetaAgent -a <span class="nv">depth</span><span class="o">=</span><span class="m">8</span>,evalFn<span class="o">=</span>so_score --frameTime <span class="m">0</span> -k <span class="m">1</span> -l mediumClassic  
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span> python pacman.py -g AlphaBetaGhost -b <span class="nv">depth</span><span class="o">=</span><span class="m">8</span>,evalFn<span class="o">=</span>anti_score -p AlphaBetaAgent -a <span class="nv">depth</span><span class="o">=</span><span class="m">8</span>,evalFn<span class="o">=</span>so_score --frameTime <span class="m">0</span> -k <span class="m">1</span> -l mediumClassic  
 </pre></div>
 
     </div>
@@ -14629,15 +14165,21 @@ GHOST_SPEED  1.0     está na classe GhostRules em pacman.py
 <h2 id="A-classe-MultiAgentSearchAgent">A classe MultiAgentSearchAgent<a class="anchor-link" href="#A-classe-MultiAgentSearchAgent">&#182;</a></h2><p>Todos os agentes que usam o minimax alfabeta são subclasses da classe <strong>MultiAgentSearchAgent</strong>, no ficheiro <em>MultiAgents.py</em>. Por omissão a função de avaliação é a <strong>so_score()</strong> e a profundidade é 2.</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MultiAgentSearchAgent</span><span class="p">(</span><span class="n">Agent</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    This class provides the constructor with additional two attributes: depth and evaluationFunction, and a default name to </span>
+<span class="sd">     This class provides the constructor with additional three attributes: depth, evaluationFunction and a update the extra part of the state. It is a default name to </span>
 <span class="sd">    every subclass</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">evalFn</span> <span class="o">=</span> <span class="s1">&#39;so_score&#39;</span><span class="p">,</span> <span class="n">depth</span> <span class="o">=</span> <span class="s1">&#39;2&#39;</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># Pacman is always agent index 0</span>
+
+   <span class="c1"># def __init__(self, evalFn = &#39;scoreEvaluationFunction&#39;, depth = &#39;2&#39;):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">evalFn</span> <span class="o">=</span> <span class="s1">&#39;so_score&#39;</span><span class="p">,</span> <span class="n">extraFn</span><span class="o">=</span><span class="s1">&#39;identity&#39;</span><span class="p">,</span><span class="n">depth</span> <span class="o">=</span> <span class="s1">&#39;2&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">index</span>  <span class="c1">#0 # Pacman is always agent index 0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">evaluationFunction</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">evalFn</span><span class="p">,</span> <span class="nb">globals</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">extra_fn</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">extraFn</span><span class="p">,</span><span class="nb">globals</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">depth</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">depth</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">extra</span> <span class="o">=</span> <span class="p">{}</span>
+
 
     <span class="k">def</span> <span class="nf">myName</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># This will be used for the identification of this agent in the record file</span>
         <span class="c1">#return self.__class__.__name__ + self.evaluationFunction.__name__</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluationFunction</span><span class="o">.</span><span class="vm">__name__</span>
 </pre></div>
@@ -14648,20 +14190,24 @@ GHOST_SPEED  1.0     está na classe GhostRules em pacman.py
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="A-classe-AlphaBetaAgent">A classe AlphaBetaAgent<a class="anchor-link" href="#A-classe-AlphaBetaAgent">&#182;</a></h2><p>Esta é a classe de todos os Pacmans que usam o alfabeta. É uma subclasse da classe anterior e por isso o limite da profundidade e a função de avaliação estão guardadas nos atributos herdados.</p>
+<h2 id="A-classe-AlphaBetaAgent">A classe AlphaBetaAgent<a class="anchor-link" href="#A-classe-AlphaBetaAgent">&#182;</a></h2><p>Esta é a classe de todos os Pacmans que usam o alfabeta. É uma subclasse da classe anterior e por isso o limite da profundidade, a função de avaliação e a função de update do extra do estado, estão guardadas nos atributos herdados.</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">AlphaBetaAgent</span><span class="p">(</span><span class="n">MultiAgentSearchAgent</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The alpha-beta pruning Pacman (question 3)</span>
+<span class="sd">     The alpha-beta pruning Pacman (question 3)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
 
     <span class="k">def</span> <span class="nf">getAction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gameState</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the minimax action using self.depth and self.evaluationFunction</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">currentState</span> <span class="o">=</span> <span class="n">ClassicPac</span><span class="p">(</span><span class="n">to_move</span><span class="o">=</span><span class="s2">&quot;Pacman&quot;</span><span class="p">,</span><span class="n">board</span><span class="o">=</span><span class="n">gameState</span><span class="p">)</span>
+        <span class="c1">#print(&quot;Lets decide with Extra do Pac&quot;,self.extra_fn)</span>
+        <span class="c1">#self.extra=self.extra_fn(gameState,self.extra)</span>
+        <span class="c1">#print(&#39;Current extra:&#39;,self.extra)</span>
+        <span class="n">currentState</span> <span class="o">=</span> <span class="n">ClassicPac</span><span class="p">(</span><span class="n">to_move</span><span class="o">=</span><span class="s2">&quot;Pacman&quot;</span><span class="p">,</span><span class="n">board</span><span class="o">=</span><span class="n">gameState</span><span class="p">,</span><span class="n">extra</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">extra</span><span class="p">)</span>
         <span class="n">thisGame</span> <span class="o">=</span> <span class="n">ClassicPacman</span><span class="p">(</span><span class="n">currentState</span><span class="p">)</span>
         <span class="c1">#print(&quot;UAU. here goes alpha beta&quot;)</span>
-        <span class="k">return</span> <span class="n">alphabeta_cutoff_search</span><span class="p">(</span><span class="n">currentState</span><span class="p">,</span> <span class="n">thisGame</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">depth</span><span class="p">,</span> <span class="n">eval_fn</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">evaluationFunction</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">alphabeta_cutoff_search</span><span class="p">(</span><span class="n">currentState</span><span class="p">,</span> <span class="n">thisGame</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">depth</span><span class="p">,</span> <span class="n">eval_fn</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">evaluationFunction</span><span class="p">,</span> <span class="n">extra_fn</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">extra_fn</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -14687,15 +14233,18 @@ Notem que as funções de avaliação recebem sempre um estado do jogo e um joga
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Your minimax ghost with alpha-beta pruning </span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="k">def</span> <span class="nf">getAction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gameState</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the alfabeta action using self.depth and self.evaluationFunction</span>
-<span class="sd">        &quot;&quot;&quot;</span>      
-        <span class="n">currentState</span> <span class="o">=</span> <span class="n">ClassicPac</span><span class="p">(</span><span class="n">to_move</span><span class="o">=</span><span class="s2">&quot;Ghost&quot;</span><span class="p">,</span><span class="n">board</span><span class="o">=</span><span class="n">gameState</span><span class="p">)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1">#print(&#39;Jogada dupla:&#39;,gameState.numMoves())</span>
+        <span class="c1">#print(&quot;Lets decide with Extra do Ghost&quot;,self.extra_fn)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">extra</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">extra_fn</span><span class="p">(</span><span class="n">gameState</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">extra</span><span class="p">)</span>
+        <span class="c1">#print(&#39;Current extra:&#39;,self.extra)</span>
+        <span class="n">currentState</span> <span class="o">=</span> <span class="n">ClassicPac</span><span class="p">(</span><span class="n">to_move</span><span class="o">=</span><span class="s2">&quot;Ghosts&quot;</span><span class="p">,</span><span class="n">board</span><span class="o">=</span><span class="n">gameState</span><span class="p">,</span><span class="n">extra</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">extra</span><span class="p">)</span>
         <span class="n">thisGame</span> <span class="o">=</span> <span class="n">ClassicPacman</span><span class="p">(</span><span class="n">currentState</span><span class="p">)</span>
         <span class="c1">#print(&quot;UAU. here goes alpha beta&quot;)</span>
-        <span class="k">return</span> <span class="n">alphabeta_cutoff_search</span><span class="p">(</span><span class="n">currentState</span><span class="p">,</span> <span class="n">thisGame</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">depth</span><span class="p">,</span> <span class="n">eval_fn</span><span class="o">=</span><span class="n">anti_score</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">alphabeta_cutoff_search</span><span class="p">(</span><span class="n">currentState</span><span class="p">,</span> <span class="n">thisGame</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">depth</span><span class="p">,</span> <span class="n">eval_fn</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">evaluationFunction</span><span class="p">,</span><span class="n">extra_fn</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">extra_fn</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -14726,7 +14275,7 @@ Vamos fazer um jogo entre o <strong><em>anti_score</em></strong> e o <strong><em
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span> python pacman.py -z <span class="m">2</span> -g AlphaBetaGhost -b <span class="nv">depth</span><span class="o">=</span><span class="m">8</span>,evalFn<span class="o">=</span>anti_score -p AlphaBetaAgent -a <span class="nv">depth</span><span class="o">=</span><span class="m">8</span>,evalFn<span class="o">=</span>scooore --frameTime <span class="m">0</span> -k <span class="m">1</span> -l mediumClassic
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span> python pacman.py  -g AlphaBetaGhost -b <span class="nv">depth</span><span class="o">=</span><span class="m">8</span>,evalFn<span class="o">=</span>anti_score -p AlphaBetaAgent -a <span class="nv">depth</span><span class="o">=</span><span class="m">8</span>,evalFn<span class="o">=</span>scooore -k <span class="m">1</span>
 </pre></div>
 
     </div>
@@ -14760,6 +14309,65 @@ Vamos fazer um jogo entre o <strong><em>anti_score</em></strong> e o <strong><em
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Extra-Extra">Extra Extra<a class="anchor-link" href="#Extra-Extra">&#182;</a></h2><p>Por omissão a função que faz o update do extra é a função <strong><em>identity()</em></strong>
+que mantém o extra intacto.</p>
+<p>Vamos dar dois exemplos de jogadores, um que controla o Pacman e outro que controla o Fantasma que memorizam as posições do Pacman e do Fantasma ao longo de todo o jogo.
+Notem que cada jogador tem um atributo <strong><em>extra</em></strong> onde é actualizado esse extra estado do jogo e que neste caso vai ser um dicinário com a lista de posições do Pacman e do Fantasma.
+Por outro lado, o estado que o algoritmo alfabeta tem como input transfere o valor do atributo extra para o campo extra, e assim a árvore alfabeta terá estados com o extra actualizado e preparado para ser usado com a função de avaliação.</p>
+<p>Notem que os extras só são actualizados antes do jogador respectivo fazer a sua jogada, tanto durante o jogo como durante a árvore de procura do alfabeta. Podem ver isso no método <strong><em>resultado()</em></strong> da classe ClassicPacman como no <strong><em>getAction()</em></strong> de ambas as classes <strong>alphaBetaAgent</strong> e <strong>AlphaBetaGhost</strong></p>
+<p>Este exemplo é dado apenas para ilustração porque não temos nenhuma função de avaliação que faça uso dessa informação. Vejam as duas funções <strong><em>extra_mem()</em></strong> e <strong><em>extra_memF()</em></strong>. Se não usarem esses campos na linhas de comandos a função <strong><em>identity()</em></strong> será utilizada.</p>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">extra_mem</span><span class="p">(</span><span class="n">gState</span><span class="p">,</span><span class="n">extra</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; memorizes the positions of Pacman and ghosts</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">extra</span> <span class="o">==</span> <span class="p">{}:</span>
+        <span class="n">n_extra</span> <span class="o">=</span><span class="p">{</span><span class="s1">&#39;Pacman&#39;</span><span class="p">:[</span><span class="n">gState</span><span class="o">.</span><span class="n">getPacmanPosition</span><span class="p">()],</span><span class="s1">&#39;Ghosts&#39;</span><span class="p">:[</span><span class="n">gState</span><span class="o">.</span><span class="n">getGhostPosition</span><span class="p">(</span><span class="mi">1</span><span class="p">)]}</span>
+        <span class="k">return</span> <span class="n">n_extra</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">n_extra</span><span class="o">=</span><span class="n">extra</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">n_extra</span><span class="p">[</span><span class="s1">&#39;Pacman&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">[</span><span class="n">gState</span><span class="o">.</span><span class="n">getPacmanPosition</span><span class="p">()]</span><span class="o">+</span><span class="n">n_extra</span><span class="p">[</span><span class="s1">&#39;Pacman&#39;</span><span class="p">]</span>
+        <span class="n">n_extra</span><span class="p">[</span><span class="s1">&#39;Ghosts&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">[</span><span class="n">gState</span><span class="o">.</span><span class="n">getGhostPosition</span><span class="p">(</span><span class="mi">1</span><span class="p">)]</span><span class="o">+</span><span class="n">n_extra</span><span class="p">[</span><span class="s1">&#39;Ghosts&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">n_extra</span>
+
+<span class="k">def</span> <span class="nf">extra_memF</span><span class="p">(</span><span class="n">gState</span><span class="p">,</span><span class="n">extra</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; memorizes the positions of Pacman and ghosts</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">extra</span> <span class="o">==</span> <span class="p">{}:</span>
+        <span class="n">n_extra</span> <span class="o">=</span><span class="p">{</span><span class="s1">&#39;Pacman&#39;</span><span class="p">:[</span><span class="n">gState</span><span class="o">.</span><span class="n">getPacmanPosition</span><span class="p">()],</span><span class="s1">&#39;Ghosts&#39;</span><span class="p">:[]}</span>
+        <span class="k">return</span> <span class="n">n_extra</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">n_extra</span><span class="o">=</span><span class="n">extra</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">n_extra</span><span class="p">[</span><span class="s1">&#39;Pacman&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">[</span><span class="n">gState</span><span class="o">.</span><span class="n">getPacmanPosition</span><span class="p">()]</span><span class="o">+</span><span class="n">n_extra</span><span class="p">[</span><span class="s1">&#39;Pacman&#39;</span><span class="p">]</span>
+        <span class="n">n_extra</span><span class="p">[</span><span class="s1">&#39;Ghosts&#39;</span><span class="p">]</span><span class="o">=</span><span class="p">[</span><span class="n">gState</span><span class="o">.</span><span class="n">getGhostPosition</span><span class="p">(</span><span class="mi">1</span><span class="p">)]</span><span class="o">+</span><span class="n">n_extra</span><span class="p">[</span><span class="s1">&#39;Ghosts&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">n_extra</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Para usarmos as funções de update do extra usamos o campo extraF nas opções -a e -g, respectivamente:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span> python pacman.py  -g AlphaBetaGhost -b <span class="nv">depth</span><span class="o">=</span><span class="m">8</span>,evalFn<span class="o">=</span>anti_score,extraFn<span class="o">=</span>extra_memF -p AlphaBetaAgent -a <span class="nv">depth</span><span class="o">=</span><span class="m">8</span>,evalFn<span class="o">=</span>scooore,extraFn<span class="o">=</span>extra_mem -k <span class="m">1</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Grupos">Grupos<a class="anchor-link" href="#Grupos">&#182;</a></h2><p>Os grupos para o projecto são formados por no máximo 3 alunos. Recomendamos a formação de grupos de 3 mas não impedimos que hajam grupos de dois elementos ou até alunos a solo.</p>
 
 </div>
@@ -14768,7 +14376,7 @@ Vamos fazer um jogo entre o <strong><em>anti_score</em></strong> e o <strong><em
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Submiss&#227;o-do-projecto">Submiss&#227;o do projecto<a class="anchor-link" href="#Submiss&#227;o-do-projecto">&#182;</a></h2><p>Coloquem na pasta projIIA_X, em que X é o identificador do grupo, um ficheiro projIIA_X.py com as duas funções pac_X e fant_X e um pequeno report a explicar o que fazem as duas dunções de avaliação. Zipem essa pasta para projIIA_X.sip e submetam esse ficheiro.</p>
+<h2 id="Submiss&#227;o-do-projecto">Submiss&#227;o do projecto<a class="anchor-link" href="#Submiss&#227;o-do-projecto">&#182;</a></h2><p>Coloquem na pasta projIIA_X, em que X é o identificador do grupo, um ficheiro projIIA_X.py com pelo menos as duas funções pac_X e fant_X e um pequeno report a explicar o que fazem as duas funções de avaliação. No caso de utilizarem o campo extra do estado é necessário incluir também as duas funções de actualização do campo parao Pacman: extraP_X e para o fantasma: extraF_X, que actualizam o campo extra com as jogadas reais e com as jogadas pensadas e antecipadas através do algoritmo alfabeta.Zipem essa pasta para projIIA_X.sip e submetam esse ficheiro.</p>
 
 </div>
 </div>
