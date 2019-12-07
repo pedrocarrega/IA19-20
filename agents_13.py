@@ -50,7 +50,20 @@ def pac_13(gState, player):
 
 
 
-#def fant_13(gState, player):
+def fant_13(gState, player):
+
+    run = 0
+    foodList = gState.board.getFood().asList()
+    
+    # Compute distance to the nearest food
+    if len(foodList) > 0: # This should always be True,  but better safe than sorry
+        if (min([manhatanDist_13(gState.board.getPacmanPosition(), food) for food in foodList])) > 3 & (manhatanDist_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()) > 5):
+            run += 100
+
+    return -gState.board.getScore() + run
+
+
+
 
 def manhatanDist_13(p1,p2):
         p1x,p1y=p1
