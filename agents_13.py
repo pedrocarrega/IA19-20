@@ -35,6 +35,9 @@ def extraP_13(gState,extra):
 #alguma ideia porque isto acontece?
 
 def pac_13(gState, player):
+    scared = 0
+    if gState.getGhostState(1).scaredTimer > 3 & manhatanDist(gState.board.getPacmanPosition(), gState.getGhostState(1).getPosition()):
+        scared = 1000
     foodList = gState.board.getFood().asList()
     minDistance = 0
     # Compute distance to the nearest food
@@ -42,7 +45,7 @@ def pac_13(gState, player):
         myPos = gState.board.getPacmanPosition()
         
         minDistance = min([manhatanDist(myPos, food) for food in foodList])
-    return gState.board.getScore() * 100 - minDistance
+    return gState.board.getScore() * 100 - minDistance + scared
 
 
 
