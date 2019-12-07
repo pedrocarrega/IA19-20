@@ -36,7 +36,7 @@ def extraP_13(gState,extra):
 
 def pac_13(gState, player):
     scared = 0
-    if gState.getGhostState(1).scaredTimer > 3 & manhatanDist(gState.board.getPacmanPosition(), gState.getGhostState(1).getPosition()):
+    if gState.getGhostState(1).scaredTimer > 3 & manhatanDist(gState.board.getPacmanPosition(), gState.getGhostState(1).getPosition()) > 3:
         scared = 1000
     foodList = gState.board.getFood().asList()
     minDistance = 0
