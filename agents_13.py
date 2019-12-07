@@ -1,11 +1,10 @@
 from pacman import Directions
 
-
 import game
 
+from multiAgents import *
 
-
-from multiAgents import manhattanDistance
+#from util import manhatanDist
 from game import Directions
 import random, util
 
@@ -13,7 +12,6 @@ from game import Agent
 
 from collections import namedtuple
 import random
-import multiAgents
 
 from utils import argmax
 
@@ -36,21 +34,26 @@ def extraP_13(gState,extra):
 
 def pac_13(gState, player):
     scared = 0
-    if (gState.board.getGhostState(1).scaredTimer > 3) & (manhatanDist(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()) > 3):
-        scared += 100
+    if (gState.board.getGhostState(1).scaredTimer > 7) & (manhatanDist_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()) > 15):
+        scared += 100000
         if gState.board.getPacmanState().getDirection() == gState.board.getGhostState(1).getDirection(): #need to check this if
-            scared += 50
+            scared -= 500
     foodList = gState.board.getFood().asList()
     minDistance = 0
     # Compute distance to the nearest food
     if len(foodList) > 0: # This should always be True,  but better safe than sorry
         myPos = gState.board.getPacmanPosition()
         
-        minDistance = min([manhatanDist(myPos, food) for food in foodList])
+        minDistance = min([manhatanDist_13(myPos, food) for food in foodList])
     return gState.board.getScore() * 100 - minDistance + scared
 
 
 
 
 #def fant_13(gState, player):
+
+def manhatanDist_13(p1,p2):
+        p1x,p1y=p1
+        p2x,p2y=p2
+        return abs(p1x-p2x)+abs(p1y-p2y)
 
