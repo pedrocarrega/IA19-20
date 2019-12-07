@@ -36,9 +36,9 @@ def extraP_13(gState,extra):
 
 def pac_13(gState, player):
     scared = 0
-    if gState.getGhostState(1).scaredTimer > 3 & manhatanDist(gState.board.getPacmanPosition(), gState.getGhostState(1).getPosition()) > 3:
+    if (gState.board.getGhostState(1).scaredTimer > 3) & (manhatanDist(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()) > 3):
         scared += 100
-        if gState.getPacmanState().getDirection() == gState.getGhostState(1).getDirection(): #need to check this if
+        if gState.board.getPacmanState().getDirection() == gState.board.getGhostState(1).getDirection(): #need to check this if
             scared += 50
     foodList = gState.board.getFood().asList()
     minDistance = 0
