@@ -54,15 +54,14 @@ def fant_13(gState, player):
     
     lose = 0
     run = 0
-    direction = 0
+    position = 0
     capsuleList = gState.board.getCapsules()
-    foodList = gState.board.getFood().asList()
     
     if(gState.board.isLose()):
-       lose = -10000
+        lose = -10000
     
-    if(direction_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()) == gState.board.getGhostState(1).getDirection():
-       direction = -500
+    if(direction_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()) == gState.board.getGhostState(1).getDirection()):
+        position = -500
     
     # Compute distance to the nearest food
     if len(capsuleList) > 0: # This should always be True,  but better safe than sorry
@@ -70,7 +69,7 @@ def fant_13(gState, player):
             run -= 1000
 
     #return -(gState.board.getScore()) + run
-    return lose + run + direction
+    return -(gState.board.getScore()) + lose + run + position
 
 
 
@@ -83,11 +82,15 @@ def manhatanDist_13(p1,p2):
 def direction_13(p1,p2):
     p1x,p1y=p1
     p2x,p2y=p2
-    if (p1x-p2x) > 0:
-        return 'North'
-    if (p1x-p2x) < 0:
-        return  'South'
-    if (p1y-p2y) > 0:
-        return 'East'
-    if (p1y-p2y) < 0:
-        return 'West'
+    x = p1x - p2x
+    y = p1y - p2y
+    if(abs(x) > abs(y)):
+        if x > 0:
+            return 'North'
+        if x < 0:
+            return 'South'
+    else:
+        if y > 0:
+            return 'East'
+        if y < 0:
+            return 'West'
