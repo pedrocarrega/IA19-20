@@ -17,6 +17,7 @@ from pacman import Directions
 import game
 
 
+from agents_13 import *
 
 from util import manhattanDistance
 from game import Directions
