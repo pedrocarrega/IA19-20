@@ -56,6 +56,7 @@ def fant_13(gState, player):
     run = 0
     direction = 0
     capsuleList = gState.board.getCapsules()
+    foodList = gState.board.getFood().asList()
     
     if(gState.board.isLose()):
        lose = -10000
