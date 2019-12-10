@@ -32,6 +32,17 @@ def extraP_13(gState,extra):
 #outra cena a alterar se possivel seria diminuir as vezes que o pacman fica indeciso,  -> ver recordedgamepac_404 
 #alguma ideia porque isto acontece?
 
+def extra_mem(gState,extra):
+    """ memorizes the positions of ghosts
+    """
+    if extra == {}:
+        n_extra ={'Ghosts':[gState.getGhostPosition(1)]}
+        return n_extra
+    else:
+        n_extra=extra.copy()
+        n_extra['Ghosts']=[gState.getGhostPosition(1)]+n_extra['Ghosts']
+    return n_extra
+
 def pac_13(gState, player):
     scared = 0
     if (gState.board.getGhostState(1).scaredTimer > 7) & (manhatanDist_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()) > 15):
@@ -56,7 +67,17 @@ def fant_13(gState, player):
     run = 0
     position = 0
     capsuleList = gState.board.getCapsules()
-    
+    dist = 0
+     
+    """ forcar o gajo a nao ir para uma posicao onde ja esteve"""
+    leg = gState.board.getLegalActions(1)
+    for x in leg:
+        g1 = gState.board.generateSuccessor(1,x)
+        for y in gState.extra['Ghosts']: #do extra_mem
+            if (g1.getGhostPosition(1) == y):
+                print(y)
+                dist = -10000
+                
     if(gState.board.isLose()):
         lose = -10000
     
@@ -70,7 +91,7 @@ def fant_13(gState, player):
             run += 1000
 
     #return -(gState.board.getScore()) + run
-    return lose + run + position
+    return lose + run + position + dist
 
 
 
