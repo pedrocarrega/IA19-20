@@ -61,15 +61,16 @@ def fant_13(gState, player):
         lose = -10000
     
     if(direction_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()) == gState.board.getGhostState(1).getDirection()):
+        print(direction_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()))
         position = -500
     
     # Compute distance to the nearest food
     if len(capsuleList) > 0: # This should always be True,  but better safe than sorry
         if (min([manhatanDist_13(gState.board.getPacmanPosition(), capsule) for capsule in capsuleList])) > 5 & (manhatanDist_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()) > 5):
-            run -= 1000
+            run += 1000
 
     #return -(gState.board.getScore()) + run
-    return -(gState.board.getScore()) + lose + run + position
+    return lose + run + position
 
 
 
