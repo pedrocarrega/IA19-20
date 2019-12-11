@@ -45,6 +45,7 @@ def extra_mem(gState,extra):
 
 def pac_13(gState, player):
     scared = 0
+    availableRoutes = 300 - (len(gState.board.getLegalActions(0)) * 100)
     if (gState.board.getGhostState(1).scaredTimer > 7) & (manhatanDist_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()) > 15):
         scared += 100000
         if gState.board.getPacmanState().getDirection() == gState.board.getGhostState(1).getDirection(): #need to check this if
@@ -56,7 +57,7 @@ def pac_13(gState, player):
         myPos = gState.board.getPacmanPosition()
         
         minDistance = min([manhatanDist_13(myPos, food) for food in foodList])
-    return gState.board.getScore() * 100 - minDistance + scared
+    return gState.board.getScore() * 100 - minDistance + scared + availableRoutes
 
 
 
@@ -79,7 +80,7 @@ def fant_13(gState, player):
                 print(y)
                 dist = -10000
     
-     """apenas uma experiencia, tenta obrigar o fantasma a ir atras do pacman, parece funcional -> ver replay.
+    """apenas uma experiencia, tenta obrigar o fantasma a ir atras do pacman, parece funcional -> ver replay.
         problema-> o fantasma so comeca a fugir quando ja eh tarde demais, eh quase sempre apanhado ->alias penso que nao estah a fugir sequer
         (corrido apenas com os ifs do lose e do run,tudo o resto comentado, e return -(gState.board.getScore()) - p + run """ 
     leg = gState.board.getLegalActions(1)
