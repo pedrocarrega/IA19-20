@@ -36,7 +36,7 @@ def extra_mem(gState,extra):
     """ memorizes the positions of ghosts
     """
     if extra == {}:
-        n_extra ={'Ghosts':[gState.getGhostPosition(1)]}
+        n_extra ={'Ghosts':[gState.getGhostPosition(1)]} #,'ini':[gState.getGhostPosition(1)]} crasha isto
         return n_extra
     else:
         n_extra=extra.copy()
@@ -70,6 +70,7 @@ def fant_13(gState, player):
     dist = 0
      
     """ forcar o gajo a nao ir para uma posicao onde ja esteve"""
+    #if (manhatanDist_13(gState.board.getGhostPosition(1),gState.extra['ini'][0]) <6 ): crasha isto tudo
     leg = gState.board.getLegalActions(1)
     for x in leg:
         g1 = gState.board.generateSuccessor(1,x)
@@ -77,6 +78,24 @@ def fant_13(gState, player):
             if (g1.getGhostPosition(1) == y):
                 print(y)
                 dist = -10000
+    
+     """apenas uma experiencia, tenta obrigar o fantasma a ir atras do pacman, parece funcional -> ver replay.
+        problema-> o fantasma so comeca a fugir quando ja eh tarde demais, eh quase sempre apanhado
+        (corrido apenas com os ifs do lose e do run,tudo o resto comentado, e return -(gState.board.getScore()) - p + run """ 
+    leg = gState.board.getLegalActions(1)
+    k= 0
+    p= 0
+    for x in leg:
+        g1 = gState.board.generateSuccessor(1,x)
+        k = manhatanDist_13(gState.board.getPacmanPosition(),g1.getGhostPosition(1))
+        print (k)
+        if p == 0:
+            p = k
+        else:
+            if p>k:
+                p = k
+                print("vai mudar")
+                print(p)
                 
     if(gState.board.isLose()):
         lose = -10000
