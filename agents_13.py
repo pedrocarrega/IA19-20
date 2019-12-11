@@ -80,7 +80,7 @@ def fant_13(gState, player):
                 dist = -10000
     
      """apenas uma experiencia, tenta obrigar o fantasma a ir atras do pacman, parece funcional -> ver replay.
-        problema-> o fantasma so comeca a fugir quando ja eh tarde demais, eh quase sempre apanhado
+        problema-> o fantasma so comeca a fugir quando ja eh tarde demais, eh quase sempre apanhado ->alias penso que nao estah a fugir sequer
         (corrido apenas com os ifs do lose e do run,tudo o resto comentado, e return -(gState.board.getScore()) - p + run """ 
     leg = gState.board.getLegalActions(1)
     k= 0
