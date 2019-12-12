@@ -61,9 +61,9 @@ def pac_13(gState, player):
     repeat = 0
     minDistance = 0
 
-    moves = gState.extra['Pacman']
+    #moves = gState.extra['Pacman']
 
-    print(len(moves)) #nao percebo pk devolve so 4, as vezes ate menos
+    #print(len(moves)) #nao percebo pk devolve so 4, as vezes ate menos
 
     #print(moves[0:4])
     
@@ -94,49 +94,52 @@ def fant_13(gState, player):
     position = 0
     capsuleList = gState.board.getCapsules()
     dist = 0
+
+    #dist = manhatanDist_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()) * 100
      
-    """ forcar o gajo a nao ir para uma posicao onde ja esteve"""
-    #if (manhatanDist_13(gState.board.getGhostPosition(1),gState.extra['ini'][0]) <6 ): crasha isto tudo
+    """ forcar o gajo a nao ir para uma posicao onde ja esteve """
+    #if (manhatanDist_13(gState.board.getGhostPosition(1),gState.extra['ini'][0]) <6 ): #crasha isto tudo
     leg = gState.board.getLegalActions(1)
     for x in leg:
         g1 = gState.board.generateSuccessor(1,x)
         for y in gState.extra['Ghosts']: #do extra_mem
             if (g1.getGhostPosition(1) == y):
-                #print(y)
-                dist = -10000
+                print(y)
+                dist = -25
     
     """apenas uma experiencia, tenta obrigar o fantasma a ir atras do pacman, parece funcional -> ver replay.
         problema-> o fantasma so comeca a fugir quando ja eh tarde demais, eh quase sempre apanhado ->alias penso que nao estah a fugir sequer
-        (corrido apenas com os ifs do lose e do run,tudo o resto comentado, e return -(gState.board.getScore()) - p + run """ 
+        (corrido apenas com os ifs do lose e do run,tudo o resto comentado, e return -(gState.board.getScore()) - p + run """
     leg = gState.board.getLegalActions(1)
     k= 0
     p= 0
     for x in leg:
         g1 = gState.board.generateSuccessor(1,x)
         k = manhatanDist_13(gState.board.getPacmanPosition(),g1.getGhostPosition(1))
-        #print (k)
+        print (k)
         if p == 0:
             p = k
         else:
             if p>k:
                 p = k
-                #print("vai mudar")
-                #print(p)
+                print("vai mudar")
+                print(p)
+        
                 
     if(gState.board.isLose()):
         lose = -10000
     
     if(direction_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()) == gState.board.getGhostState(1).getDirection()):
         #print(direction_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()))
-        position = -500
+        position = 200
     
-    # Compute distance to the nearest food
-    if len(capsuleList) > 0: # This should always be True,  but better safe than sorry
+    # Compute distance to the nearest capsule
+    if len(capsuleList) > 0: 
         if (min([manhatanDist_13(gState.board.getPacmanPosition(), capsule) for capsule in capsuleList])) > 5 & (manhatanDist_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()) > 5):
-            run += 1000
+            run = -manhatanDist_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()) * 100
 
-    #return -(gState.board.getScore()) + run
-    return lose + run + position + dist
+    #return gState.board.getScore() + run + position + dist + lose
+    return lose + run + position + dist #+ gum
 
 
 
