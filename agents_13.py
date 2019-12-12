@@ -20,7 +20,7 @@ from utils import argmax
 """
 def extraP_13(gState,extra):
     if extra == {}:
-        distancer = Distancer(gState.data.layout)
+        distancer = Distancer(gState.board.data.layout)
         distancer.getMazeDistances()
         n_extra ={'Moves':[gState.getPacmanPosition()],'Distance':distancer}
         return n_extra
