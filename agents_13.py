@@ -4,6 +4,8 @@ import game
 
 from multiAgents import *
 
+from distanceCalculator import *
+
 #from util import manhatanDist
 from game import Directions
 import random, util
@@ -17,7 +19,9 @@ from utils import argmax
 
 def extraP_13(gState,extra):
     if extra == {}:
-        n_extra ={'Moves':[gState.getPacmanPosition()],}
+        distancer = Distancer(gState.data.layout)
+        distancer.getMazeDistances()
+        n_extra ={'Moves':[gState.getPacmanPosition()],'Distance':distancer}
         return n_extra
     else:
         n_extra=extra.copy()
@@ -28,7 +32,7 @@ def extraP_13(gState,extra):
     return n_extra
     
 
-def extra_mem(gState,extra):
+def extraF_13(gState,extra):
     """ memorizes the positions of ghosts
     """
     if extra == {}:
@@ -46,8 +50,10 @@ def pac_13(gState, player):
     #if gState.board.getPacmanPosition() in gState.extra['Moves']:
     #    repeat = -100
 
+    #print(gState.extra['Distance'].getDistance(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()))
+
     if (gState.board.getGhostState(1).scaredTimer > 7) & (manhatanDist_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()) > 15):
-        scared += 100000
+        scared += manhatanDist_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()) * 100
     foodList = gState.board.getFood().asList()
     minDistance = 0
     # Compute distance to the nearest food

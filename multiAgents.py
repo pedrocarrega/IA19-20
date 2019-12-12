@@ -18,6 +18,7 @@ import game
 
 
 from agents_13 import *
+from distanceCalculator import *
 
 from util import manhattanDistance
 from game import Directions
