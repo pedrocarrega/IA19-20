@@ -16,21 +16,17 @@ import random
 from utils import argmax
 
 def extraP_13(gState,extra):
-    """ vai memorizar onde se encontra o fantasma e as super pastilhas, pq no scooore por vezes
-        o efeito das superpastlhas n eh aproveitado -> arranjar maneira do gajo so apanhar a pastilha
-        quando realmente de para comer o fantasma -> mas optando no entanto por nao comer o fantasma
-        caso esteja a x casas da posicao onde o fantasma respawns (acho que no scooore isto ja acontece)
-    """
     if extra == {}:
-        n_extra ={'super':[gState.getCapsules()],'Ghosts':[gState.getGhostPosition(1)],}
+        n_extra ={'Moves':[gState.getPacmanPosition()],}
         return n_extra
     else:
         n_extra=extra.copy()
-        n_extra['super'] =[gState.getCapsules()] + n_extra['super'] #?
-        n_extra['Ghosts']=[gState.getGhostPosition(1)]+n_extra['Ghosts']
+        if (len(n_extra['Moves']) == 5):
+            n_extra['Moves'] = n_extra['Moves'][1:] + [gState.getPacmanPosition()]
+        else:
+            n_extra['Moves'] = n_extra['Moves'] + [gState.getPacmanPosition()]
     return n_extra
-#outra cena a alterar se possivel seria diminuir as vezes que o pacman fica indeciso,  -> ver recordedgamepac_404 
-#alguma ideia porque isto acontece?
+    
 
 def extra_mem(gState,extra):
     """ memorizes the positions of ghosts
@@ -45,11 +41,13 @@ def extra_mem(gState,extra):
 
 def pac_13(gState, player):
     scared = 0
-    availableRoutes = 300 - (len(gState.board.getLegalActions(0)) * 100)
+    repeat = 0
+    
+    #if gState.board.getPacmanPosition() in gState.extra['Moves']:
+    #    repeat = -100
+
     if (gState.board.getGhostState(1).scaredTimer > 7) & (manhatanDist_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()) > 15):
         scared += 100000
-        if gState.board.getPacmanState().getDirection() == gState.board.getGhostState(1).getDirection(): #need to check this if
-            scared -= 500
     foodList = gState.board.getFood().asList()
     minDistance = 0
     # Compute distance to the nearest food
@@ -57,7 +55,7 @@ def pac_13(gState, player):
         myPos = gState.board.getPacmanPosition()
         
         minDistance = min([manhatanDist_13(myPos, food) for food in foodList])
-    return gState.board.getScore() * 100 - minDistance + scared + availableRoutes
+    return gState.board.getScore() * 100 - minDistance + scared + repeat
 
 
 
@@ -77,7 +75,7 @@ def fant_13(gState, player):
         g1 = gState.board.generateSuccessor(1,x)
         for y in gState.extra['Ghosts']: #do extra_mem
             if (g1.getGhostPosition(1) == y):
-                print(y)
+                #print(y)
                 dist = -10000
     
     """apenas uma experiencia, tenta obrigar o fantasma a ir atras do pacman, parece funcional -> ver replay.
@@ -89,20 +87,20 @@ def fant_13(gState, player):
     for x in leg:
         g1 = gState.board.generateSuccessor(1,x)
         k = manhatanDist_13(gState.board.getPacmanPosition(),g1.getGhostPosition(1))
-        print (k)
+        #print (k)
         if p == 0:
             p = k
         else:
             if p>k:
                 p = k
-                print("vai mudar")
-                print(p)
+                #print("vai mudar")
+                #print(p)
                 
     if(gState.board.isLose()):
         lose = -10000
     
     if(direction_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()) == gState.board.getGhostState(1).getDirection()):
-        print(direction_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()))
+        #print(direction_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()))
         position = -500
     
     # Compute distance to the nearest food
