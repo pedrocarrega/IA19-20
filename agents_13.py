@@ -17,6 +17,7 @@ import random
 
 from utils import argmax
 
+"""
 def extraP_13(gState,extra):
     if extra == {}:
         distancer = Distancer(gState.data.layout)
@@ -29,6 +30,18 @@ def extraP_13(gState,extra):
             n_extra['Moves'] = n_extra['Moves'][1:] + [gState.getPacmanPosition()]
         else:
             n_extra['Moves'] = n_extra['Moves'] + [gState.getPacmanPosition()]
+    return n_extra
+    """
+
+def extraP_13(gState,extra):
+    """ memorizes the positions of Pacman
+    """
+    if extra == {}:
+        n_extra ={'Pacman':[gState.getPacmanPosition()]}
+        return n_extra
+    else:
+        n_extra=extra.copy()
+        n_extra['Pacman']=[gState.getPacmanPosition()]+n_extra['Pacman']
     return n_extra
     
 
@@ -47,6 +60,12 @@ def pac_13(gState, player):
     scared = 0
     repeat = 0
     minDistance = 0
+
+    moves = gState.extra['Pacman']
+
+    print(len(moves)) #nao percebo pk devolve so 4, as vezes ate menos
+
+    #print(moves[0:4])
     
     #if gState.board.getPacmanPosition() in gState.extra['Moves']:
     #    repeat = -250
