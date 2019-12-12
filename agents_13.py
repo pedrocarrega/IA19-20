@@ -46,16 +46,18 @@ def extraF_13(gState,extra):
 def pac_13(gState, player):
     scared = 0
     repeat = 0
+    minDistance = 0
     
     #if gState.board.getPacmanPosition() in gState.extra['Moves']:
-    #    repeat = -100
+    #    repeat = -250
 
     #print(gState.extra['Distance'].getDistance(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()))
 
     if (gState.board.getGhostState(1).scaredTimer > 7) & (manhatanDist_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()) > 15):
         scared += manhatanDist_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()) * 100
+        
     foodList = gState.board.getFood().asList()
-    minDistance = 0
+    
     # Compute distance to the nearest food
     if len(foodList) > 0: # This should always be True,  but better safe than sorry
         myPos = gState.board.getPacmanPosition()
