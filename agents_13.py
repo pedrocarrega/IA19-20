@@ -49,7 +49,7 @@ def extraF_13(gState,extra):
     """ memorizes the positions of ghosts
     """
     if extra == {}:
-        n_extra ={'Ghosts':[gState.getGhostPosition(1)]} #,'ini':[gState.getGhostPosition(1)]} crasha isto
+        n_extra ={'Ghosts':[gState.getGhostPosition(1)],'ini':[gState.getGhostPosition(1)]}
         return n_extra
     else:
         n_extra=extra.copy()
@@ -98,6 +98,22 @@ def fant_13(gState, player):
     distancer = Distancer(gState.board.data.layout)
     p= 0
     
+     """run fantasma run - fantasma procura afastar -se o maximo do pacman"""
+    leg = gState.board.getLegalActions(1) #para saber as accoes possiveis do fantasma no instante atual
+    k= 0
+    
+    for x in leg: #para cada accao possivel,
+        g1 = gState.board.generateSuccessor(1,x) #gerar um estado sucessor dessa accao
+        k = manhatanDist_13(gState.board.getPacmanPosition(),g1.getGhostPosition(1)) #ver a que distancia fica o fantasma do pacman nesse estado sucessor 
+        #print (k)
+        if p == 0: #se eh a primeira accao do ciclo, manter esse valor em p
+            p = k 
+        else:
+            if p<k: #caso seja encontrado um estado sucessor cuja distancia ao pacman eh maior que o valor atual em p, atualizar p
+                p = k
+                #print(p)
+    return p 
+    
     #dist = manhatanDist_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()) * 100
     
     """ cena de fugir e tentar apanhar quando ja n ha mais capsulas, crasha no outro mapa
@@ -144,7 +160,7 @@ def fant_13(gState, player):
     
     """apenas uma experiencia, tenta obrigar o fantasma a ir atras do pacman, parece funcional -> ver replay.
         problema-> o fantasma so comeca a fugir quando ja eh tarde demais, eh quase sempre apanhado ->alias penso que nao estah a fugir sequer
-        (corrido apenas com os ifs do lose e do run,tudo o resto comentado, e return -(gState.board.getScore()) - p + run """
+        (corrido apenas com os ifs do lose e do run,tudo o resto comentado, e return -(gState.board.getScore()) - p + run
     leg = gState.board.getLegalActions(1)
     k= 0
     p= 0
@@ -159,7 +175,8 @@ def fant_13(gState, player):
                 p = k
                 #print("vai mudar")
                 #print(p)
-        
+       
+       """ 
                 
     #if(gState.board.isLose()):
      #   lose = -10000
@@ -180,7 +197,8 @@ def fant_13(gState, player):
 
     #return gState.board.getScore() + run + position + dist + lose
     #return lose + run + position + dist + food #+ gum + p
-    return -(gState.board.getScore()) -p #para o chase, tmb pode ser return -p
+    
+    
 
 
 
