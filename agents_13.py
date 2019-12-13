@@ -94,9 +94,43 @@ def fant_13(gState, player):
     position = 0
     capsuleList = gState.board.getCapsules()
     dist = 0
-
+    distancer = Distancer(gState.board.data.layout)
+    p= 0
+    
     #dist = manhatanDist_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()) * 100
-     
+    
+    """ cena de fugir e tentar apanhar quando ja n ha mais capsulas, crasha no outro mapa
+       if len(capsuleList) > 0:
+        leg = gState.board.getLegalActions(1)
+        k= 0
+        for x in leg:
+            g1 = gState.board.generateSuccessor(1,x)
+            k = distancer.getDistance(gState.board.getPacmanPosition(),g1.getGhostPosition(1))
+            print (k)
+            if p == 0:
+                p = k
+            else:
+                if k>p:
+                    p = k
+                    print("vai mudar")
+                    print(p)
+    else:
+        print("no more capsules")
+        leg = gState.board.getLegalActions(1)
+        k= 0
+        for x in leg:
+            g1 = gState.board.generateSuccessor(1,x)
+            k = manhatanDist_13(gState.board.getPacmanPosition(),g1.getGhostPosition(1))
+            print (k)
+            if p == 0:
+                p = k
+            else:
+                if k<p:
+                    p = k
+                    print("vai mudar")
+                    print(p)
+      """
+    
     """ forcar o gajo a nao ir para uma posicao onde ja esteve """
     #if (manhatanDist_13(gState.board.getGhostPosition(1),gState.extra['ini'][0]) <6 ): #crasha isto tudo
     leg = gState.board.getLegalActions(1)
@@ -139,7 +173,7 @@ def fant_13(gState, player):
             run = -manhatanDist_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()) * 100
 
     #return gState.board.getScore() + run + position + dist + lose
-    return lose + run + position + dist #+ gum
+    return lose + run + position + dist #+ gum + p
 
 
 
