@@ -134,13 +134,13 @@ def fant_13(gState, player):
     
     """ forcar o gajo a nao ir para uma posicao onde ja esteve """
     #if (manhatanDist_13(gState.board.getGhostPosition(1),gState.extra['ini'][0]) <6 ): #crasha isto tudo
-    leg = gState.board.getLegalActions(1)
-    for x in leg:
-        g1 = gState.board.generateSuccessor(1,x)
-        for y in gState.extra['Ghosts']: #do extra_mem
-            if (g1.getGhostPosition(1) == y):
-                print(y)
-                dist = -25
+    #leg = gState.board.getLegalActions(1)
+    #for x in leg:
+     #   g1 = gState.board.generateSuccessor(1,x)
+      #  for y in gState.extra['Ghosts']: #do extra_mem
+       #     if (g1.getGhostPosition(1) == y):
+        #        print(y)
+         #       dist = -25
     
     """apenas uma experiencia, tenta obrigar o fantasma a ir atras do pacman, parece funcional -> ver replay.
         problema-> o fantasma so comeca a fugir quando ja eh tarde demais, eh quase sempre apanhado ->alias penso que nao estah a fugir sequer
@@ -161,26 +161,26 @@ def fant_13(gState, player):
                 print(p)
         
                 
-    if(gState.board.isLose()):
-        lose = -10000
+    #if(gState.board.isLose()):
+     #   lose = -10000
     
     #prefer casas com comida presente
-    if(gState.board.hasFood(int(gState.board.getGhostState(1).getPosition()[0]), int(gState.board.getGhostState(1).getPosition()[1]))):
-        food = -manhatanDist_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition())
+    #if(gState.board.hasFood(int(gState.board.getGhostState(1).getPosition()[0]), int(gState.board.getGhostState(1).getPosition()[1]))):
+        #food = -manhatanDist_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition())
         #food = -300
     
-    if(direction_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()) == gState.board.getGhostState(1).getDirection()):
+    #if(direction_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()) == gState.board.getGhostState(1).getDirection()):
         #print(direction_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()))
-        position = 200
+        #position = 200
     
     # Compute distance to the nearest capsule
-    if len(capsuleList) > 0: 
-        if (min([manhatanDist_13(gState.board.getPacmanPosition(), capsule) for capsule in capsuleList])) > 5 & (manhatanDist_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()) > 5):
-            run = -manhatanDist_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()) * 100
+    #if len(capsuleList) > 0: 
+     #   if (min([manhatanDist_13(gState.board.getPacmanPosition(), capsule) for capsule in capsuleList])) > 5 & (manhatanDist_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()) > 5):
+      #      run = -manhatanDist_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()) * 100
 
     #return gState.board.getScore() + run + position + dist + lose
-    return lose + run + position + dist + food #+ gum + p
-
+    #return lose + run + position + dist + food #+ gum + p
+    return -p #para o chase
 
 
 
