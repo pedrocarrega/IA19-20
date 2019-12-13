@@ -151,14 +151,14 @@ def fant_13(gState, player):
     for x in leg:
         g1 = gState.board.generateSuccessor(1,x)
         k = manhatanDist_13(gState.board.getPacmanPosition(),g1.getGhostPosition(1))
-        print (k)
+        #print (k)
         if p == 0:
             p = k
         else:
             if p>k:
                 p = k
-                print("vai mudar")
-                print(p)
+                #print("vai mudar")
+                #print(p)
         
                 
     #if(gState.board.isLose()):
@@ -180,7 +180,7 @@ def fant_13(gState, player):
 
     #return gState.board.getScore() + run + position + dist + lose
     #return lose + run + position + dist + food #+ gum + p
-    return -p #para o chase
+    return -(gState.board.getScore()) -p #para o chase, tmb pode ser return -p
 
 
 
