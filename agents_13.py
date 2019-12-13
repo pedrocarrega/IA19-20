@@ -89,6 +89,7 @@ def pac_13(gState, player):
 
 def fant_13(gState, player):
     
+    food = 0
     lose = 0
     run = 0
     position = 0
@@ -163,6 +164,11 @@ def fant_13(gState, player):
     if(gState.board.isLose()):
         lose = -10000
     
+    #prefer casas com comida presente
+    if(gState.board.hasFood(int(gState.board.getGhostState(1).getPosition()[0]), int(gState.board.getGhostState(1).getPosition()[1]))):
+        food = -manhatanDist_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition())
+        #food = -300
+    
     if(direction_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()) == gState.board.getGhostState(1).getDirection()):
         #print(direction_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()))
         position = 200
@@ -173,7 +179,7 @@ def fant_13(gState, player):
             run = -manhatanDist_13(gState.board.getPacmanPosition(), gState.board.getGhostState(1).getPosition()) * 100
 
     #return gState.board.getScore() + run + position + dist + lose
-    return lose + run + position + dist #+ gum + p
+    return lose + run + position + dist + food #+ gum + p
 
 
 
